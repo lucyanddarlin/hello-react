@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+  <script type="text/babel">
+    const root = ReactDOM.createRoot(document.querySelector('#root'))
+    class LoginControl extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          isLogin: false
+        }
+      }
+      handleLogin = () => {
+        this.setState({
+          isLogin: true
+        })
+      }
+      handleLogout = () => {
+        this.setState({
+          isLogin: false
+        })
+      }
+      render() {
+        const { isLogin } = this.state
+        return (
+          <div>
+            <div>
+              <Greeting flag={this.state.isLogin} />
+            </div>
+            {isLogin ? <LoginBtn handleEvents={this.handleLogout} content='logout' /> : <LoginBtn handleEvents={this.handleLogin} content='login' />}
+          </div>
+        )
+      }
+    }
+    function GuestGreeting(props) {
+      return (
+        <div>please login in </div>
+      )
+    }
+    function UserGreeting(props) {
+      return (
+        <div>welcome user</div>
+      )
+    }
+    function Greeting(props) {
+      const { flag } = props
+      if (flag) {
+        return (
+          <UserGreeting />
+        )
+      } else {
+        return (
+          <div>
+            <GuestGreeting />
+          </div>
+        )
+      }
+    }
+    function LoginBtn(props) {
+      return (
+        <button onClick={props.handleEvents}>
+          {props.content}
+        </button>
+      )
+
+    }
+    root.render(<LoginControl />)
+
+  </script>
+</body>
+
+</html>
