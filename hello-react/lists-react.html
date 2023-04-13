@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script scr="./data.js"></script>
+
+  <script type="text/babel">
+    const root = ReactDOM.createRoot(document.querySelector('#root'))
+    function ListItem(props) {
+      return (
+        <div>
+          <h2>{props.title}</h2>
+          <ul>
+            {props.people.map(p => <li key={p.id}>{p.name}</li>)}
+          </ul>
+        </div>
+      )
+    }
+    function List() {
+      const chemists = people.filter(p => p.profession === 'chemist')
+      const everyElseList = people.filter(p => p.profession !== 'chemist')
+
+      return (
+        <div>
+          <ListItem title='CHEMIST' people={chemists} />
+          <ListItem title='EVERY_ELSE' people={everyElseList} />
+        </div>
+      )
+    }
+
+    root.render(<List />)
+  </script>
+</body>
+
+</html>
