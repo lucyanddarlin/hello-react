@@ -13,35 +13,36 @@
   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-  <script scr="./data.js"></script>
-
   <script type="text/babel">
-    // export person data
     const root = ReactDOM.createRoot(document.querySelector('#root'))
-    function ListItem(props) {
+    const poem = {
+      lines: [
+        'I write, erase, rewrite',
+        'Erase again, and then',
+        'A poppy blooms.'
+      ]
+    };
+    function Poem(props) {
+      let output = []
+      poem.lines.forEach((line, idx) => {
+        output.push(
+          <p key={`${idx}-one`}>1</p>
+        )
+        output.push(
+          <p key={`${idx}-line`}>{line}</p>
+        )
+      })
+      output.shift()
       return (
         <div>
-          <h2>{props.title}</h2>
-          <ul>
-            {props.people.map(p => <li key={p.id}>{p.name}</li>)}
-          </ul>
+          {output}
         </div>
       )
     }
-    function List() {
-      const chemists = people.filter(p => p.profession === 'chemist')
-      const everyElseList = people.filter(p => p.profession !== 'chemist')
-
-      return (
-        <div>
-          <ListItem title='CHEMIST' people={chemists} />
-          <ListItem title='EVERY_ELSE' people={everyElseList} />
-        </div>
-      )
-    }
-
-    root.render(<List />)
+    root.render(<Poem />)
   </script>
+
+
 </body>
 
 </html>

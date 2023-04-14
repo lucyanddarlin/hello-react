@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+
+<body>
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+
+    td,
+    th {
+      padding: 10px;
+      border: 1px solid #aaa;
+    }
+  </style>
+  <div id="root"></div>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script src="./format.js"></script>
+  <script src="./data.js"></script>
+
+  <script type="text/babel">
+    const root = ReactDOM.createRoot(document.querySelector('#root'))
+
+    class App extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          books: books
+        }
+      }
+      // handleSetBooksState(callback) {
+      //   const newBooks = [...this.state.books]
+      // }
+      changeCount(index, count) {
+        const newBooks = [...this.state.books]
+        newBooks[index].count += count
+        this.setState({
+          books: newBooks
+        })
+      }
+
+      handleDeleteBook(index) {
+        const newBooks = [...this.state.books]
+        newBooks.splice(index, 1)
+        this.setState({
+          books: newBooks
+        })
+      }
+
+      handleGetTotal() {
+        let totalPrice = this.state.books.reduce((prev, cur) => {
+          prev += cur.price * cur.count
+          return prev
+        }, 0)
+        return formatPrice(totalPrice)
+      }
+
+      handleRenderBooksList() {
+        const { books } = this.state
+        return (
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th>序号</th>
+                  <th>书籍名称</th>
+                  <th>价格</th>
+                  <th>数量</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {books.map((book, index) => {
+                  return (
+                    <tr key={book.id}>
+                      <td>{index + 1}</td>
+                      <td>{book.name}</td>
+                      <td>{formatPrice(book.price)}</td>
+                      <td>
+                        <button
+                          disabled={book.count <= 1}
+                          onClick={() => this.changeCount(index, -1)}
+                        >
+                          -
+                        </button>
+                        {book.count}
+                        <button onClick={() => this.changeCount(index, +1)}>+</button>
+                      </td>
+                      <td>
+                        <button onClick={() => this.handleDeleteBook(index)}>delete</button>
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+            <h2>总价格: {this.handleGetTotal()}</h2>
+          </div>
+        )
+      }
+      handleRenderBooksEmpty() {
+        return (
+          <div>
+            <h2>No books! Please add!</h2>
+          </div>
+        )
+      }
+      render() {
+        const { books } = this.state
+        return (
+          <div>
+            {
+              books.length > 0 ? this.handleRenderBooksList() : this.handleRenderBooksEmpty()
+            }
+          </div>
+        )
+      }
+    }
+    root.render(<App />)
+  </script>
+
+</body>
+
+</html>
