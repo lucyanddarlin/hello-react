@@ -20,14 +20,6 @@ export class About extends PureComponent {
   }
 }
 
-// function fn2 (dispatch) {
-//   return {
-//     changeCount (num) {
-//       dispatch(changeCount(num))
-//     }
-//   }
-// }
-
 const mapStoreToProps = (state) => ({
   counter: state.counter.counter
 })
